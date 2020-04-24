@@ -1,17 +1,17 @@
-import React from 'react';
+import React from "react";
 
-import FormInput from '../form-input/form-input.component';
-import CustomButton from '../custom-button/custom-button.component';
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
+import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
 
-import './sign-up.styles.scss';
+import { SignUpContainer, SignUpTitle } from "./sign-up.styles";
 
 const INITIAL_STATE = {
-  displayName: '',
-  email: '',
-  password: '',
-  confirmPassword: ''
-}
+  displayName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
 
 class SignUp extends React.PureComponent {
   constructor() {
@@ -20,37 +20,40 @@ class SignUp extends React.PureComponent {
     this.state = INITIAL_STATE;
   }
 
-  handleSubmit = async event => {
+  handleSubmit = async (event) => {
     event.preventDefault();
 
-    const { displayName, email, password, confirmPassword } = this.state
+    const { displayName, email, password, confirmPassword } = this.state;
 
-    if(password !== confirmPassword) {
-      alert('Password do not match!');
+    if (password !== confirmPassword) {
+      alert("Password do not match!");
       return;
     }
 
     try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+      const { user } = await auth.createUserWithEmailAndPassword(
+        email,
+        password
+      );
       await createUserProfileDocument(user, { displayName });
-      this.setState(INITIAL_STATE)
+      this.setState(INITIAL_STATE);
     } catch (err) {
       console.error(err);
     }
   };
 
-  handleChange = event => {
+  handleChange = (event) => {
     const { name, value } = event.target;
 
     this.setState({ [name]: value });
   };
 
   render() {
-    const { displayName, email, password, confirmPassword } = this.state
+    const { displayName, email, password, confirmPassword } = this.state;
 
     return (
-      <div className="sign-up">
-        <h2>I do not have an account</h2>
+      <SignUpContainer>
+        <SignUpTitle>I do not have an account</SignUpTitle>
         <span>Sign up with you email and password</span>
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
           <FormInput
@@ -87,7 +90,7 @@ class SignUp extends React.PureComponent {
           />
           <CustomButton type="submit">SIGN UP</CustomButton>
         </form>
-      </div>
+      </SignUpContainer>
     );
   }
 }

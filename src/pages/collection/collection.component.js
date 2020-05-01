@@ -11,17 +11,17 @@ import {
 } from "./collection.styles";
 
 const CollectionPage = ({ collection }) => {
-  const { title, items } = collection;
-
   return (
-    <CollectionPageContainer>
-      <TitleContainer>{title}</TitleContainer>
-      <ItemsContainer>
-        {items.map((item) => (
-          <CollectionItem key={item.id} item={item} />
-        ))}
-      </ItemsContainer>
-    </CollectionPageContainer>
+    collection && (
+      <CollectionPageContainer>
+        <TitleContainer>{collection.title}</TitleContainer>
+        <ItemsContainer>
+          {collection.items.map((item) => (
+            <CollectionItem key={item.id} item={item} />
+          ))}
+        </ItemsContainer>
+      </CollectionPageContainer>
+    )
   );
 };
 
